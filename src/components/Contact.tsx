@@ -12,7 +12,7 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const whatsappNumber = '5511999999999';
+    const whatsappNumber = '5531994760622';
     const message = `Olá! Meu nome é ${formData.name}.\n\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\nTipo de Crédito: ${formData.creditType}\n\nMensagem: ${formData.message}`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
@@ -136,7 +136,7 @@ export function Contact() {
 
               <div className="space-y-6">
                 <a
-                  href="https://wa.me/5511999999999"
+                  href="https://wa.me/5531994760622"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all group"
@@ -146,7 +146,7 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="font-semibold mb-1">WhatsApp</div>
-                    <div className="text-gray-300">(11) 99999-9999</div>
+                    <div className="text-gray-300">(31) 99476-0622</div>
                   </div>
                 </a>
 
@@ -156,7 +156,7 @@ export function Contact() {
                   </div>
                   <div>
                     <div className="font-semibold mb-1">Telefone</div>
-                    <div className="text-gray-300">(11) 3333-3333</div>
+                    <div className="text-gray-300">(31) 99476-0622</div>
                   </div>
                 </div>
 
