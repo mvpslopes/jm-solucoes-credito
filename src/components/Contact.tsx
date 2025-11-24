@@ -6,14 +6,13 @@ export function Contact() {
     name: '',
     phone: '',
     whatsapp: '',
-    creditType: '',
     message: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const whatsappNumber = '5531994760622';
-    const message = `Olá! Meu nome é ${formData.name}.\n\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\nTipo de Crédito: ${formData.creditType}\n\nMensagem: ${formData.message}`;
+    const message = `Olá! Meu nome é ${formData.name}.\n\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\n\nMensagem: ${formData.message}`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
   };
@@ -26,21 +25,21 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 bg-white">
+    <section id="contact" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#1a2847] mb-4">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1a2847] mb-3 sm:mb-4">
             Entre em Contato
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#ffd700] to-[#ffed4e] mx-auto rounded-full mb-4"></div>
-          <p className="text-gray-600 text-lg">
+          <div className="w-24 h-1 bg-gradient-to-r from-[#ffd700] to-[#ffed4e] mx-auto rounded-full mb-3 sm:mb-4"></div>
+          <p className="text-gray-600 text-base sm:text-lg">
             Estamos prontos para atender você
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
           <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-[#1a2847] mb-2">
                   Nome Completo *
@@ -85,25 +84,6 @@ export function Contact() {
                     placeholder="(11) 98888-8888"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#1a2847] mb-2">
-                  Tipo de Crédito *
-                </label>
-                <select
-                  name="creditType"
-                  required
-                  value={formData.creditType}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors bg-white"
-                >
-                  <option value="">Selecione uma opção</option>
-                  <option value="Crédito Consignado">Crédito Consignado</option>
-                  <option value="Empréstimo Pessoal">Empréstimo Pessoal</option>
-                  <option value="Refinanciamento">Refinanciamento</option>
-                  <option value="Portabilidade">Portabilidade de Crédito</option>
-                </select>
               </div>
 
               <div>

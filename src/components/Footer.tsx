@@ -5,23 +5,23 @@ export function Footer() {
 
   return (
     <footer className="bg-gradient-to-br from-[#1a2847] to-[#0f1829] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16">
+        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-10 md:mb-12">
           <div>
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               <img 
                 src="/Logo JM.png" 
                 alt="JM Soluções em Créditos" 
-                className="h-20 w-auto"
+                className="h-16 sm:h-18 md:h-20 w-auto"
               />
             </div>
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
               Transformando sonhos em realidade através de soluções financeiras inteligentes e personalizadas.
             </p>
           </div>
 
           <div>
-            <h4 className="text-xl font-bold mb-6 text-[#ffd700]">Serviços</h4>
+            <h4 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-[#ffd700]">Serviços</h4>
             <ul className="space-y-3">
               <li>
                 <a href="#services" className="text-gray-400 hover:text-[#ffd700] transition-colors">

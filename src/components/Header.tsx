@@ -14,14 +14,14 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1a2847]/95 backdrop-blur-md border-b border-[#1a2847]/20">
-      <nav className="max-w-7xl mx-auto px-6 py-4">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="cursor-pointer" onClick={() => scrollToSection('hero')}>
             <img 
               src="/Logo JM.png" 
               alt="JM Soluções em Créditos" 
-              className="h-16 w-auto"
+              className="h-12 sm:h-14 md:h-16 w-auto"
             />
           </div>
 
@@ -52,13 +52,24 @@ export function Header() {
               Benefícios
             </button>
             <button
+              onClick={() => scrollToSection('partner')}
+              className="text-white hover:text-[#ffd700] transition-colors font-medium"
+            >
+              Seja nosso Parceiro
+            </button>
+            <button
               onClick={() => scrollToSection('contact')}
               className="text-white hover:text-[#ffd700] transition-colors font-medium"
             >
               Contato
             </button>
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={() => {
+                const element = document.getElementById('simulator');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className="bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-6 py-2 rounded-full font-bold hover:shadow-lg hover:shadow-[#ffd700]/50 transition-all"
             >
               Simular Agora
@@ -104,13 +115,25 @@ export function Header() {
                 Benefícios
               </button>
               <button
+                onClick={() => scrollToSection('partner')}
+                className="text-white hover:text-[#ffd700] transition-colors text-left font-medium"
+              >
+                Seja nosso Parceiro
+              </button>
+              <button
                 onClick={() => scrollToSection('contact')}
                 className="text-white hover:text-[#ffd700] transition-colors text-left font-medium"
               >
                 Contato
               </button>
               <button
-                onClick={() => scrollToSection('contact')}
+                onClick={() => {
+                  const element = document.getElementById('simulator');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  setIsMenuOpen(false);
+                }}
                 className="bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-6 py-3 rounded-full font-bold text-center mt-2"
               >
                 Simular Agora
