@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calculator, DollarSign, Calendar, TrendingUp, MessageCircle } from 'lucide-react';
+import { Calculator, DollarSign, Calendar, MessageCircle, User, Phone } from 'lucide-react';
 
 export function Simulator() {
   const [step, setStep] = useState(1);
@@ -7,7 +7,8 @@ export function Simulator() {
     tipoCredito: 'cartao',
     valor: '',
     prazo: '',
-    renda: ''
+    nome: '',
+    whatsapp: ''
   });
   const [resultado, setResultado] = useState<{
     parcela: number;
@@ -17,8 +18,31 @@ export function Simulator() {
     cet: number;
   } | null>(null);
 
-  // Taxa para Trocar Limite do Cartão por PIX
-  const taxa = { mensal: 4.5, anual: 69.59 };
+  // Tabela de taxas baseada na planilha do cliente
+  // Percentual de juros total por número de parcelas
+  const taxasPorPrazo: { [key: number]: number } = {
+    1: 6.00,
+    2: 7.06,
+    3: 8.12,
+    4: 9.18,
+    5: 10.24,
+    6: 11.29,
+    7: 12.35,
+    8: 13.41,
+    9: 14.47,
+    10: 15.53,
+    11: 16.59,
+    12: 17.65,
+    13: 18.71,
+    14: 19.76,
+    15: 20.82,
+    16: 21.88,
+    17: 22.94,
+    18: 24.00,
+    19: 25.63,
+    20: 26.35,
+    21: 27.07
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -31,40 +55,118 @@ export function Simulator() {
     const valor = parseFloat(formData.valor);
     const prazo = parseInt(formData.prazo);
 
-    if (!valor || !prazo) return;
+    if (!valor || !prazo || !formData.nome || !formData.whatsapp) return;
 
-    const taxaMensal = taxa.mensal / 100;
+    // Busca a taxa percentual total para o prazo informado
+    const taxaPercentual = taxasPorPrazo[prazo] || 0;
     
-    // Cálculo de parcela: PMT = PV * [i * (1+i)^n] / [(1+i)^n - 1]
-    const parcela = valor * (taxaMensal * Math.pow(1 + taxaMensal, prazo)) / (Math.pow(1 + taxaMensal, prazo) - 1);
-    const totalPagar = parcela * prazo;
-    const cet = taxa.anual;
+    // Calcula o valor total com base na taxa percentual
+    const totalPagar = valor * (1 + taxaPercentual / 100);
+    
+    // Calcula o valor da parcela
+    const parcela = totalPagar / prazo;
+    
+    // Calcula taxa mensal aproximada (para exibição)
+    // Usando a fórmula inversa para encontrar a taxa mensal equivalente
+    const taxaMensalAprox = (Math.pow(totalPagar / valor, 1 / prazo) - 1) * 100;
+    const taxaAnualAprox = taxaMensalAprox * 12;
 
     setResultado({
       parcela: parcela,
-      taxaMensal: taxa.mensal,
-      taxaAnual: taxa.anual,
+      taxaMensal: taxaMensalAprox,
+      taxaAnual: taxaAnualAprox,
       totalPagar: totalPagar,
-      cet: cet
+      cet: taxaAnualAprox
     });
+
+    // Salva os dados na planilha do Google (silenciosamente)
+    salvarNaPlanilha();
+
     setStep(2);
   };
 
-  const enviarWhatsApp = () => {
-    const phoneNumber = '5531994760622';
-    const mensagem = `Olá! Gostaria de simular a troca de limite do cartão por PIX:\n\n` +
-      `Tipo: Trocar Limite do Cartão por PIX\n` +
-      `Valor: R$ ${parseFloat(formData.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `Prazo: ${formData.prazo} meses\n` +
-      `Renda: R$ ${parseFloat(formData.renda).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n` +
-      (resultado ? `Simulação:\n` +
-      `Parcela: R$ ${resultado.parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `Taxa: ${resultado.taxaMensal}% ao mês\n` +
-      `Total: R$ ${resultado.totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n` : '') +
-      `Gostaria de mais informações!`;
-    
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(mensagem)}`;
+  const salvarNaPlanilha = async () => {
+    const valor = parseFloat(formData.valor);
+    const prazo = parseInt(formData.prazo);
+    const taxaPercentual = taxasPorPrazo[prazo] || 0;
+    const totalPagar = valor * (1 + taxaPercentual / 100);
+    const parcela = totalPagar / prazo;
+
+    // URL do Google Apps Script (será configurada pelo cliente)
+    // IMPORTANTE: O cliente precisa configurar esta URL após criar o Google Apps Script
+    const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || '';
+
+    if (!GOOGLE_SCRIPT_URL) {
+      // Se não houver URL configurada, apenas registra no console (modo desenvolvimento)
+      console.log('Dados da simulação:', {
+        nome: formData.nome,
+        whatsapp: formData.whatsapp,
+        valor: valor,
+        prazo: prazo,
+        parcela: parcela,
+        totalPagar: totalPagar,
+        taxa: taxaPercentual,
+        data: new Date().toLocaleString('pt-BR')
+      });
+      return;
+    }
+
+    const dados = {
+      nome: formData.nome,
+      whatsapp: formData.whatsapp,
+      valor: valor, // Envia como número, não string
+      prazo: prazo, // Envia como número, não string
+      parcela: parseFloat(parcela.toFixed(2)), // Converte para número
+      totalPagar: parseFloat(totalPagar.toFixed(2)), // Converte para número
+      taxa: parseFloat(taxaPercentual.toFixed(2)), // Converte para número
+      data: new Date().toLocaleString('pt-BR')
+    };
+
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Google Apps Script requer no-cors
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados)
+      });
+      
+      // Como estamos usando no-cors, não podemos verificar a resposta
+      // Mas o dado será salvo na planilha
+      console.log('Dados enviados para a planilha com sucesso');
+    } catch (error) {
+      console.error('Erro ao salvar na planilha:', error);
+      // Não bloqueia o fluxo, apenas registra o erro
+    }
+  };
+
+  const enviarNotificacaoCliente = () => {
+    const phoneNumberCliente = '5531994760622';
+    const valor = parseFloat(formData.valor);
+    const prazo = parseInt(formData.prazo);
+    const taxaPercentual = taxasPorPrazo[prazo] || 0;
+    const totalPagar = valor * (1 + taxaPercentual / 100);
+    const parcela = totalPagar / prazo;
+
+    const mensagem = `🔔 *Nova Simulação Realizada*\n\n` +
+      `👤 *Nome:* ${formData.nome}\n` +
+      `📱 *WhatsApp:* ${formData.whatsapp}\n\n` +
+      `📊 *Detalhes da Simulação:*\n` +
+      `💰 Valor: R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
+      `📅 Prazo: ${prazo}x\n` +
+      `💵 Parcela: R$ ${parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
+      `📈 Total: R$ ${totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
+      `📊 Taxa: ${taxaPercentual.toFixed(2)}%\n\n` +
+      `_Simulação realizada no site_`;
+
+    const whatsappUrl = `https://wa.me/${phoneNumberCliente}?text=${encodeURIComponent(mensagem)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const enviarWhatsApp = () => {
+    // Envia notificação para o cliente quando o usuário clicar no botão
+    enviarNotificacaoCliente();
   };
 
   const resetar = () => {
@@ -72,7 +174,8 @@ export function Simulator() {
       tipoCredito: 'cartao',
       valor: '',
       prazo: '',
-      renda: ''
+      nome: '',
+      whatsapp: ''
     });
     setResultado(null);
     setStep(1);
@@ -147,30 +250,45 @@ export function Simulator() {
                     value={formData.prazo}
                     onChange={handleChange}
                     required
-                    min="6"
-                    max="84"
-                    placeholder="Ex: 24"
+                    min="1"
+                    max="21"
+                    placeholder="até 21x"
                     className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
                   />
                 </div>
-                <p className="text-sm text-gray-500 mt-1">Mínimo: 6 meses | Máximo: 84 meses</p>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#1a2847] mb-2">
-                  Renda Mensal (R$) *
+                  Nome Completo *
                 </label>
                 <div className="relative">
-                  <TrendingUp className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
-                    type="number"
-                    name="renda"
-                    value={formData.renda}
+                    type="text"
+                    name="nome"
+                    value={formData.nome}
                     onChange={handleChange}
                     required
-                    min="1000"
-                    step="100"
-                    placeholder="Ex: 3000"
+                    placeholder="Seu nome completo"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-[#1a2847] mb-2">
+                  WhatsApp *
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="tel"
+                    name="whatsapp"
+                    value={formData.whatsapp}
+                    onChange={handleChange}
+                    required
+                    placeholder="(31) 99999-9999"
                     className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
                   />
                 </div>
@@ -201,7 +319,7 @@ export function Simulator() {
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
                     <p className="text-gray-300 text-xs sm:text-sm mb-2">Taxa de Juros</p>
                     <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
-                      {resultado?.taxaMensal}% a.m.
+                      {resultado?.taxaMensal.toFixed(2)}% a.m.
                     </p>
                     <p className="text-xs sm:text-sm text-gray-400 mt-1">
                       {resultado?.taxaAnual.toFixed(2)}% a.a. (CET)

@@ -27,7 +27,7 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center pb-20 pt-24 px-4 sm:px-6 mt-20 sm:mt-32 md:mt-40">
+      <div className="relative z-10 max-w-5xl mx-auto text-center pb-20 pt-16 px-4 sm:px-6 mt-16 sm:mt-24 md:mt-32">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
           <span className="text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
             Transforme o limite do seu cartão em Pix
@@ -72,15 +72,18 @@ export function Hero() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-3xl mx-auto px-2">
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center justify-center">
             <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffd700] mb-1 sm:mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">+5000</div>
             <div className="text-xs sm:text-sm text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">Clientes atendidos</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffd700] mb-1 sm:mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">24h</div>
-            <div className="text-xs sm:text-sm text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">Aprovação rápida</div>
+          <div className="text-center flex flex-col items-center justify-center">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffd700] mb-1 sm:mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] leading-tight">
+              <span className="block">Aprovação</span>
+              <span className="block">imediata</span>
+            </div>
+            <div className="text-xs sm:text-sm text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">Pix enviado na hora</div>
           </div>
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center justify-center">
             <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffd700] mb-1 sm:mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">100%</div>
             <div className="text-xs sm:text-sm text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">Digital</div>
           </div>
