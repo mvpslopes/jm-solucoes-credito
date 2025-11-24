@@ -156,8 +156,7 @@ export function Simulator() {
       `💰 Valor: R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
       `📅 Prazo: ${prazo}x\n` +
       `💵 Parcela: R$ ${parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `📈 Total: R$ ${totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `📊 Taxa: ${taxaPercentual.toFixed(2)}%\n\n` +
+      `📈 Total: R$ ${totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n` +
       `_Simulação realizada no site_`;
 
     const whatsappUrl = `https://wa.me/${phoneNumberCliente}?text=${encodeURIComponent(mensagem)}`;
@@ -313,16 +312,6 @@ export function Simulator() {
                     <p className="text-gray-300 text-xs sm:text-sm mb-2">Valor da Parcela</p>
                     <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
                       R$ {resultado?.parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </p>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
-                    <p className="text-gray-300 text-xs sm:text-sm mb-2">Taxa de Juros</p>
-                    <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
-                      {resultado?.taxaMensal.toFixed(2)}% a.m.
-                    </p>
-                    <p className="text-xs sm:text-sm text-gray-400 mt-1">
-                      {resultado?.taxaAnual.toFixed(2)}% a.a. (CET)
                     </p>
                   </div>
 
