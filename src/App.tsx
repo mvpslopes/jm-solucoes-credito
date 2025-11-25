@@ -8,6 +8,7 @@ import { CTA } from './components/CTA';
 import { Testimonials } from './components/Testimonials';
 import { Contact } from './components/Contact';
 import { Partner } from './components/Partner';
+import { Journey } from './components/Journey';
 import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
@@ -25,6 +26,7 @@ function App() {
       <div id="benefits">
         <Benefits />
       </div>
+      <Journey />
       <div id="simulator">
         <Simulator />
       </div>

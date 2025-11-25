@@ -50,7 +50,7 @@ export function Contact() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                   placeholder="Seu nome completo"
                 />
               </div>
@@ -66,7 +66,7 @@ export function Contact() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                     placeholder="(11) 98888-8888"
                   />
                 </div>
@@ -80,7 +80,7 @@ export function Contact() {
                     required
                     value={formData.whatsapp}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                     placeholder="(11) 98888-8888"
                   />
                 </div>
@@ -95,7 +95,7 @@ export function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors resize-none text-[#1a2847] placeholder:text-gray-400"
                   placeholder="Conte-nos mais sobre sua necessidade..."
                 ></textarea>
               </div>

@@ -52,6 +52,12 @@ export function Header() {
               Benefícios
             </button>
             <button
+              onClick={() => scrollToSection('journey')}
+              className="text-white hover:text-[#ffd700] transition-colors font-medium"
+            >
+              Jornada JM
+            </button>
+            <button
               onClick={() => scrollToSection('partner')}
               className="text-white hover:text-[#ffd700] transition-colors font-medium"
             >
@@ -113,6 +119,12 @@ export function Header() {
                 className="text-white hover:text-[#ffd700] transition-colors text-left font-medium"
               >
                 Benefícios
+              </button>
+              <button
+                onClick={() => scrollToSection('journey')}
+                className="text-white hover:text-[#ffd700] transition-colors text-left font-medium"
+              >
+                Jornada JM
               </button>
               <button
                 onClick={() => scrollToSection('partner')}
