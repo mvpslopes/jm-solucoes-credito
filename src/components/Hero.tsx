@@ -16,14 +16,21 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex justify-center px-6 overflow-hidden">
+    <section
+      id="hero"
+      className="relative min-h-screen flex justify-center px-6 overflow-hidden bg-[#050b1f]"
+    >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
-        <img 
-          src="/fundo-site.png" 
-          alt="Background" 
+        <img
+          src="/fundo-site.png"
+          alt="Background"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050b1f]/60 via-[#050b1f]/45 to-[#050b1f]/80" />
       </div>
 
       {/* Content */}

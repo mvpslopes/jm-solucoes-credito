@@ -141,6 +141,9 @@ export function Simulator() {
     }
   };
 
+  const formatCurrency = (value: number) =>
+    value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   const enviarNotificacaoCliente = () => {
     const phoneNumberCliente = '5531994760622';
     const valor = parseFloat(formData.valor);
@@ -148,15 +151,15 @@ export function Simulator() {
     const taxaPercentual = taxasPorPrazo[prazo] || 0;
     const totalPagar = valor * (1 + taxaPercentual / 100);
     const parcela = totalPagar / prazo;
+    const parcelasLabel = prazo ? `Valor da Parcela em ${prazo}x` : 'Valor da Parcela';
 
     const mensagem = `🔔 *Nova Simulação Realizada*\n\n` +
       `👤 *Nome:* ${formData.nome}\n` +
       `📱 *WhatsApp:* ${formData.whatsapp}\n\n` +
       `📊 *Detalhes da Simulação:*\n` +
-      `💰 Valor: R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `📅 Prazo: ${prazo}x\n` +
-      `💵 Parcela: R$ ${parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n` +
-      `📈 Total: R$ ${totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\n\n` +
+      `💰 Valor Solicitado: R$ ${formatCurrency(valor)}\n` +
+      `💳 ${parcelasLabel}: R$ ${formatCurrency(parcela)}\n` +
+      `📈 Total a Pagar: R$ ${formatCurrency(totalPagar)}\n\n` +
       `_Simulação realizada no site_`;
 
     const whatsappUrl = `https://wa.me/${phoneNumberCliente}?text=${encodeURIComponent(mensagem)}`;
@@ -210,8 +213,7 @@ export function Simulator() {
                   value={formData.tipoCredito}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors bg-white"
-                  disabled
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors bg-white text-[#1a2847]"
                 >
                   <option value="cartao">Trocar Limite do Cartão por PIX</option>
                 </select>
@@ -232,7 +234,7 @@ export function Simulator() {
                     min="100"
                     step="100"
                     placeholder="Ex: 5000"
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -252,7 +254,7 @@ export function Simulator() {
                     min="1"
                     max="21"
                     placeholder="até 21x"
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -270,7 +272,7 @@ export function Simulator() {
                     onChange={handleChange}
                     required
                     placeholder="Seu nome completo"
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -288,7 +290,7 @@ export function Simulator() {
                     onChange={handleChange}
                     required
                     placeholder="(31) 99999-9999"
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#ffd700] outline-none transition-colors text-[#1a2847] placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -309,30 +311,32 @@ export function Simulator() {
                 
                 <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
-                    <p className="text-gray-300 text-xs sm:text-sm mb-2">Valor da Parcela</p>
+                    <p className="text-gray-300 text-xs sm:text-sm mb-2">Valor Solicitado</p>
                     <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
-                      R$ {resultado?.parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      R$ {formData.valor ? formatCurrency(parseFloat(formData.valor)) : '--'}
+                    </p>
+                  </div>
+
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
+                    <p className="text-gray-300 text-xs sm:text-sm mb-2">
+                      {formData.prazo ? `Valor da Parcela em ${formData.prazo}x` : 'Valor da Parcela'}
+                    </p>
+                    <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
+                      R$ {resultado?.parcela ? formatCurrency(resultado.parcela) : '--'}
                     </p>
                   </div>
 
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
                     <p className="text-gray-300 text-xs sm:text-sm mb-2">Total a Pagar</p>
                     <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
-                      R$ {resultado?.totalPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </p>
-                  </div>
-
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6">
-                    <p className="text-gray-300 text-xs sm:text-sm mb-2">Valor Solicitado</p>
-                    <p className="text-2xl sm:text-3xl font-bold text-[#ffd700]">
-                      R$ {parseFloat(formData.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      R$ {resultado?.totalPagar ? formatCurrency(resultado.totalPagar) : '--'}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4">
                   <p className="text-sm text-yellow-200">
-                    <strong>Importante:</strong> Esta é uma simulação. Os valores podem variar conforme análise de crédito e aprovação.
+                    Garantimos as melhores condições do mercado — cobrimos qualquer simulação ou oferta!
                   </p>
                 </div>
               </div>

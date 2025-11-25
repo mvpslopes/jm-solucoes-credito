@@ -15,8 +15,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  background-color: #050b1f;
+  color: #ffffff;
+  min-height: 100vh;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: #050b1f;
 }
