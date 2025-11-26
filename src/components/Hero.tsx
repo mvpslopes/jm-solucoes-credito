@@ -22,9 +22,9 @@ export function Hero() {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
-        <img
-          src="/fundo-site.png"
-          alt="Background"
+        <img 
+          src="/fundo-site.png" 
+          alt="Background" 
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           fetchpriority="high"

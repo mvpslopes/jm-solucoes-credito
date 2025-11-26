@@ -28,10 +28,10 @@ export function Journey() {
             Jornada JM
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1a2847] mb-3">
-            Conheça nossas histórias em vídeo
+            Conheça o nosso trabalho em vídeo
           </h2>
           <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
-            Histórias reais que mostram como ajudamos clientes e parceiros a transformar o limite do cartão em soluções rápidas.
+            Entenda nossa missão, valores e o modelo de trabalho que nos tornou referência em soluções financeiras acessíveis, confiáveis e eficientes.
           </p>
         </div>
 
