@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, Phone, MessageCircle, Mail, MapPin } from 'lucide-react';
+import { Send, Phone, MessageCircle } from 'lucide-react';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -11,10 +11,13 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const whatsappNumber = '5531994760622';
-    const message = `Olá! Meu nome é ${formData.name}.\n\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\n\nMensagem: ${formData.message}`;
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+
+    const to = 'jmsolucoesmg@gmail.com';
+    const subject = `Novo contato do site - ${formData.name || 'Sem nome'}`;
+    const body = `Nome: ${formData.name}\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\n\nMensagem:\n${formData.message}`;
+
+    const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -140,25 +143,6 @@ export function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
-                  <div className="bg-[#ff6b6b] p-3 rounded-lg">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="font-semibold mb-1">E-mail</div>
-                    <div className="text-gray-300">contato@jmsolucoes.com.br</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 p-4 bg-white/10 rounded-xl">
-                  <div className="bg-[#ffd700] p-3 rounded-lg">
-                    <MapPin className="w-6 h-6 text-[#1a2847]" />
-                  </div>
-                  <div>
-                    <div className="font-semibold mb-1">Endereço</div>
-                    <div className="text-gray-300">São Paulo - SP</div>
-                  </div>
-                </div>
               </div>
             </div>
 
