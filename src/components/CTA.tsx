@@ -1,8 +1,8 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 export function CTA() {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSimulator = () => {
+    document.getElementById('simulator')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -26,7 +26,7 @@ export function CTA() {
         </p>
 
         <button
-          onClick={scrollToContact}
+          onClick={scrollToSimulator}
           className="group bg-gradient-to-r from-[#1a2847] to-[#2d3e5f] text-white px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6 rounded-full text-base sm:text-lg md:text-xl font-bold shadow-2xl hover:shadow-[#1a2847]/50 transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 sm:gap-3 md:gap-4"
         >
           Quero simular
@@ -40,7 +40,7 @@ export function CTA() {
           </div>
           <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-2xl shadow-lg">
             <div className="text-2xl sm:text-3xl font-bold text-[#1a2847] mb-1 sm:mb-2">2</div>
-            <div className="text-xs sm:text-sm font-semibold text-[#2d3e5f]">Análise em 24h</div>
+            <div className="text-xs sm:text-sm font-semibold text-[#2d3e5f]">Análise em 1h</div>
           </div>
           <div className="bg-white/80 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-2xl shadow-lg">
             <div className="text-2xl sm:text-3xl font-bold text-[#1a2847] mb-1 sm:mb-2">3</div>
