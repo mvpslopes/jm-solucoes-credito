@@ -9,6 +9,8 @@ export function Partner() {
     city: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -17,18 +19,53 @@ export function Partner() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const phoneNumber = '5531994760622';
-    const message = `Olá! Gostaria de me tornar um Parceiro Local JM:\n\n` +
-      `Nome: ${formData.name}\n` +
-      `Email: ${formData.email}\n` +
-      `Telefone: ${formData.phone}\n` +
-      `Cidade: ${formData.city}\n` +
-      `Mensagem: ${formData.message || 'Sem mensagem adicional'}`;
-    
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    setIsSubmitting(true);
+    setSubmitMessage('');
+
+    const dados = {
+      tipo: 'parceiro',
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      city: formData.city,
+      message: formData.message || 'Sem mensagem adicional'
+    };
+
+    try {
+      const response = await fetch('/send-email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitMessage('Cadastro enviado com sucesso! Entraremos em contato em breve.');
+        
+        // Limpa o formulário
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          city: '',
+          message: ''
+        });
+
+        // Remove a mensagem de sucesso após 5 segundos
+        setTimeout(() => setSubmitMessage(''), 5000);
+      } else {
+        setSubmitMessage('Erro ao enviar cadastro. Tente novamente ou entre em contato pelo WhatsApp.');
+      }
+    } catch (error) {
+      setSubmitMessage('Erro ao enviar cadastro. Tente novamente ou entre em contato pelo WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const benefits = [
@@ -243,12 +280,32 @@ export function Partner() {
                 ></textarea>
               </div>
 
+              {submitMessage && (
+                <div className={`p-4 rounded-xl ${
+                  submitMessage.includes('sucesso') 
+                    ? 'bg-green-100 text-green-800 border-2 border-green-300' 
+                    : 'bg-red-100 text-red-800 border-2 border-red-300'
+                }`}>
+                  {submitMessage}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-8 py-4 rounded-xl font-bold text-lg shadow-2xl hover:shadow-[#ffd700]/50 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-8 py-4 rounded-xl font-bold text-lg shadow-2xl hover:shadow-[#ffd700]/50 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <CheckCircle className="w-5 h-5" />
-                Quero ser um Parceiro Local JM
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-[#1a2847] border-t-transparent rounded-full animate-spin"></div>
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    Quero ser um Parceiro Local JM
+                  </>
+                )}
               </button>
             </form>
           </div>

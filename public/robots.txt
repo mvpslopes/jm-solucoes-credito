@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://jmsolucoesmg.com.br/sitemap.xml
+
+# Bloquear arquivos desnecessários
+Disallow: /assets/
+Disallow: /*.json$
+
+# Permitir indexação de imagens importantes
+Allow: /Logo JM.png
+Allow: /fundo-site.png
+Allow: /favicon.png
+
+

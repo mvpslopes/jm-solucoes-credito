@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:test-email": "node test-email-server.js",
     "build": "vite build",
     "build:hostinger": "vite build && echo Build concluído! Agora faça upload da pasta 'dist' para public_html na Hostinger",
     "lint": "eslint .",

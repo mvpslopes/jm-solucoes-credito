@@ -9,15 +9,54 @@ export function Contact() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage('');
 
-    const to = 'jmsolucoesmg@gmail.com';
-    const subject = `Novo contato do site - ${formData.name || 'Sem nome'}`;
-    const body = `Nome: ${formData.name}\nTelefone: ${formData.phone}\nWhatsApp: ${formData.whatsapp}\n\nMensagem:\n${formData.message}`;
+    const dados = {
+      tipo: 'contato',
+      name: formData.name,
+      phone: formData.phone,
+      whatsapp: formData.whatsapp,
+      message: formData.message || 'Sem mensagem'
+    };
 
-    const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
+    try {
+      const response = await fetch('/send-email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+        
+        // Limpa o formulário
+        setFormData({
+          name: '',
+          phone: '',
+          whatsapp: '',
+          message: ''
+        });
+
+        // Remove a mensagem de sucesso após 5 segundos
+        setTimeout(() => setSubmitMessage(''), 5000);
+      } else {
+        setSubmitMessage('Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
+      }
+    } catch (error) {
+      setSubmitMessage('Erro ao enviar mensagem. Tente novamente ou entre em contato pelo WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -103,12 +142,32 @@ export function Contact() {
                 ></textarea>
               </div>
 
+              {submitMessage && (
+                <div className={`p-4 rounded-xl ${
+                  submitMessage.includes('sucesso') 
+                    ? 'bg-green-100 text-green-800 border-2 border-green-300' 
+                    : 'bg-red-100 text-red-800 border-2 border-red-300'
+                }`}>
+                  {submitMessage}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-[#ffd700] to-[#ffed4e] text-[#1a2847] px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
-                Enviar mensagem
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-[#1a2847] border-t-transparent rounded-full animate-spin"></div>
+                    Enviando...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Enviar mensagem
+                  </>
+                )}
               </button>
             </form>
           </div>

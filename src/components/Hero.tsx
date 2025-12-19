@@ -24,7 +24,7 @@ export function Hero() {
       <div className="absolute inset-0">
         <img 
           src="/fundo-site.png" 
-          alt="Background" 
+          alt="JM Soluções em Créditos - Transforme o limite do seu cartão em Pix" 
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           fetchpriority="high"

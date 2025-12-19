@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Mail, Phone, Lock } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,11 +8,11 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16">
         <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-10 md:mb-12">
           <div>
-            <div className="mb-4 sm:mb-6">
+            <div className="mb-4 sm:mb-6 group">
               <img 
                 src="/Logo JM.png" 
                 alt="JM Soluções em Créditos" 
-                className="h-16 sm:h-18 md:h-20 w-auto"
+                className="h-16 sm:h-18 md:h-20 w-auto transition-all duration-300 group-hover:scale-105"
               />
             </div>
             <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
@@ -102,14 +102,33 @@ export function Footer() {
               </a>
             </div>
           </div>
+          <div className="flex justify-center mt-6">
+            <button
+              id="btn-acesso-sistema"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
+              title="Acesso ao Sistema Interno"
+            >
+              <Lock className="w-4 h-4" />
+              Acesso ao Sistema
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="bg-[#0a0f1a] py-4">
         <p className="text-center text-sm text-gray-500">
-          Desenvolvido com tecnologia e segurança
+          Desenvolvido por{' '}
+          <a 
+            href="https://todaarte.com.br/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[#ffd700] hover:text-[#ffed4e] transition-colors"
+          >
+            Toda Arte Marketing
+          </a>
         </p>
       </div>
     </footer>
   );
 }
+

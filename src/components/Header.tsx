@@ -17,11 +17,11 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="cursor-pointer" onClick={() => scrollToSection('hero')}>
+          <div className="cursor-pointer group" onClick={() => scrollToSection('hero')}>
             <img 
               src="/Logo JM.png" 
               alt="JM Soluções em Créditos" 
-              className="h-12 sm:h-14 md:h-16 w-auto"
+              className="h-12 sm:h-14 md:h-16 w-auto transition-all duration-300 group-hover:scale-105"
             />
           </div>
 
@@ -157,4 +157,5 @@ export function Header() {
     </header>
   );
 }
+
 
